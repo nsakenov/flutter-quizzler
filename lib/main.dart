@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -32,21 +33,31 @@ class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
   void checkAnswer(bool userPickedAnswer) {
-    bool correctAnswer = quizBrain.getQuestionAnswer();
-    if (userPickedAnswer == correctAnswer) {
-      scoreKeeper.add(Icon(
-        Icons.check,
-        color: Colors.green,
-      ));
-    } else {
-      scoreKeeper.add(Icon(
-        Icons.close,
-        color: Colors.red,
-      ));
-    }
     setState(() {
-      // scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-      quizBrain.nextQuestion();
+      if (quizBrain.isFinished() == true) {
+        Alert(
+                context: context,
+                title: "Finished!",
+                desc: "You have reached end of the quiz. 😎")
+            .show();
+        quizBrain.reset();
+        scoreKeeper.clear();
+      } else {
+        bool correctAnswer = quizBrain.getQuestionAnswer();
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+
+        quizBrain.nextQuestion();
+      }
     });
   }
 
@@ -57,6 +68,7 @@ class _QuizPageState extends State<QuizPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
+          //text widget
           flex: 5,
           child: Padding(
             padding: EdgeInsets.all(15.0),
@@ -73,6 +85,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         Expanded(
+          //true widget
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
@@ -87,11 +100,13 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 checkAnswer(true);
+                print(quizBrain.isFinished());
               },
             ),
           ),
         ),
         Expanded(
+          //false widget
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: FlatButton(
@@ -105,6 +120,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 checkAnswer(false);
+                print(quizBrain.isFinished());
               },
             ),
           ),
