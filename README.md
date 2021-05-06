@@ -10,6 +10,12 @@
 - How to use Dart lists.
 - The difference between var, const and final.
 
+# Demo
+How the app looks in iOS:
+
+![quiz_app](https://user-images.githubusercontent.com/22214915/117340284-02826600-aea1-11eb-8ebe-22d251853e5b.gif)
+
+
 ## Code Snippet for Project
 
 ```
@@ -40,3 +46,6 @@ Question('Some cats are actually allergic to humans', true),
         true),
 
 ```
+
+___
+[Source to the original project by App Brewery](https://github.com/londonappbrewery/quizzler-flutter)
